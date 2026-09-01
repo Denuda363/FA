@@ -26,9 +26,17 @@ export function useTransactions() {
     setTransactions((prev) => prev.filter((tx) => tx.id !== id));
   };
 
+  const updateTransaction = (id: string, updatedData: Omit<Transaction, 'id' | 'createdAt'>) => {
+    setTransactions((prev) => 
+      prev.map((tx) => tx.id === id ? { ...tx, ...updatedData } : tx)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    );
+  };
+
   return {
     transactions,
     addTransaction,
     deleteTransaction,
+    updateTransaction,
   };
 }

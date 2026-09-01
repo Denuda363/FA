@@ -2,14 +2,15 @@ import { Transaction } from '../types';
 import { formatRupiah } from '../lib/utils';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Pencil } from 'lucide-react';
 
 interface TransactionListProps {
   transactions: Transaction[];
   onDelete: (id: string) => void;
+  onEdit: (tx: Transaction) => void;
 }
 
-export function TransactionList({ transactions, onDelete }: TransactionListProps) {
+export function TransactionList({ transactions, onDelete, onEdit }: TransactionListProps) {
   if (transactions.length === 0) {
     return (
       <div className="bg-white p-12 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-500 border-dashed">
@@ -54,13 +55,26 @@ export function TransactionList({ transactions, onDelete }: TransactionListProps
                   {tx.type === 'income' ? '+' : '-'}{formatRupiah(tx.amount)}
                 </td>
                 <td className="px-8 py-4 text-center">
-                  <button 
-                    onClick={() => onDelete(tx.id)}
-                    className="text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg p-2 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
-                    title="Hapus Transaksi"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  <div className="flex items-center justify-center gap-2">
+                    <button 
+                      onClick={() => onEdit(tx)}
+                      className="text-indigo-600 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-700 rounded-lg p-2 transition-all shadow-sm border border-indigo-100"
+                      title="Edit Transaksi"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button 
+                      onClick={() => {
+                        if (window.confirm('Yakin ingin menghapus transaksi ini?')) {
+                          onDelete(tx.id);
+                        }
+                      }}
+                      className="text-rose-600 bg-rose-50 hover:bg-rose-100 hover:text-rose-700 rounded-lg p-2 transition-all shadow-sm border border-rose-100"
+                      title="Hapus Transaksi"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

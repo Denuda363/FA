@@ -1,38 +1,64 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   INCOME_CATEGORIES, 
   EXPENSE_CASH_CATEGORIES, 
   EXPENSE_TF_CATEGORIES,
   TransactionType,
-  Category
+  Category,
+  Transaction
 } from '../types';
-import { Plus } from 'lucide-react';
+import { Plus, Save, X } from 'lucide-react';
 
 interface TransactionFormProps {
-  onAdd: (transaction: { type: TransactionType; category: Category; amount: number; date: string; note: string }) => void;
+  onAdd: (transaction: Omit<Transaction, 'id' | 'createdAt'>) => void;
+  onUpdate: (id: string, transaction: Omit<Transaction, 'id' | 'createdAt'>) => void;
+  editingTransaction: Transaction | null;
+  onCancelEdit: () => void;
 }
 
-export function TransactionForm({ onAdd }: TransactionFormProps) {
+export function TransactionForm({ onAdd, onUpdate, editingTransaction, onCancelEdit }: TransactionFormProps) {
   const [type, setType] = useState<TransactionType>('income');
   const [category, setCategory] = useState<string>(INCOME_CATEGORIES[0]);
   const [amount, setAmount] = useState<string>('');
   const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [note, setNote] = useState<string>('');
 
+  useEffect(() => {
+    if (editingTransaction) {
+      setType(editingTransaction.type);
+      setCategory(editingTransaction.category);
+      setAmount(editingTransaction.amount.toString());
+      setDate(editingTransaction.date);
+      setNote(editingTransaction.note || '');
+    } else {
+      setType('income');
+      setCategory(INCOME_CATEGORIES[0]);
+      setAmount('');
+      setDate(new Date().toISOString().split('T')[0]);
+      setNote('');
+    }
+  }, [editingTransaction]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount || isNaN(Number(amount))) return;
 
-    onAdd({
+    const txData = {
       type,
       category: category as Category,
       amount: Number(amount),
       date,
       note
-    });
+    };
 
-    setAmount('');
-    setNote('');
+    if (editingTransaction) {
+      onUpdate(editingTransaction.id, txData);
+      onCancelEdit();
+    } else {
+      onAdd(txData);
+      setAmount('');
+      setNote('');
+    }
   };
 
   const handleTypeChange = (newType: TransactionType) => {
@@ -52,7 +78,9 @@ export function TransactionForm({ onAdd }: TransactionFormProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
       <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50">
-        <h2 className="text-xl font-bold text-slate-800">Tambah Transaksi Baru</h2>
+        <h2 className="text-xl font-bold text-slate-800">
+          {editingTransaction ? 'Edit Transaksi' : 'Tambah Transaksi Baru'}
+        </h2>
       </div>
       <form onSubmit={handleSubmit} className="p-8 space-y-5">
         
@@ -119,13 +147,24 @@ export function TransactionForm({ onAdd }: TransactionFormProps) {
           </div>
         </div>
 
-        <div className="pt-6">
+        <div className="pt-6 flex gap-3">
+          {editingTransaction && (
+             <button 
+               type="button" 
+               onClick={onCancelEdit} 
+               className="flex-1 flex justify-center items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-4 rounded-xl transition-all shadow-sm active:scale-[0.99]"
+             >
+               <X size={20} />
+               Batal
+             </button>
+          )}
           <button 
             type="submit"
-            className="w-full flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 rounded-xl transition-all shadow-sm shadow-indigo-600/20 active:scale-[0.99]"
+            className={`flex-[2] flex justify-center items-center gap-2 text-white font-semibold py-4 rounded-xl transition-all shadow-sm active:scale-[0.99]
+              ${editingTransaction ? 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/20'}`}
           >
-            <Plus size={20} />
-            Simpan Transaksi
+            {editingTransaction ? <Save size={20} /> : <Plus size={20} />}
+            {editingTransaction ? 'Simpan Perubahan' : 'Simpan Transaksi'}
           </button>
         </div>
       </form>

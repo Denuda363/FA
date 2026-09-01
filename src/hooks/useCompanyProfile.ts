@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { CompanyProfile } from '../types';
 
-const STORAGE_KEY = 'profitflow_company_profile';
+const STORAGE_KEY = 'profitflow_company_profile_v2';
 
 const defaultProfile: CompanyProfile = {
-  name: 'PT ProfitFlow Nusantara',
-  address: 'Jl. Sudirman Kav. 12, Jakarta Selatan, 12190',
-  phone: '021-88997766',
-  email: 'finance@profitflow.co.id',
+  name: 'Apotek Assyifa Farma Cideres',
+  address: 'Jl. Raya Cideres-Kadipaten No. 45, Cideres, Majalengka',
+  phone: '+6281234567890',
+  email: 'admin@assyifafarma.com',
 };
 
 export function useCompanyProfile() {

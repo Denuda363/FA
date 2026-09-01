@@ -12,10 +12,11 @@ import { format } from 'date-fns';
 type Tab = 'dashboard' | 'transaction' | 'report' | 'profile';
 
 export default function App() {
-  const { transactions, addTransaction, deleteTransaction } = useTransactions();
+  const { transactions, addTransaction, deleteTransaction, updateTransaction } = useTransactions();
   const { profile, updateProfile } = useCompanyProfile();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [reportMonth, setReportMonth] = useState<string>(format(new Date(), 'yyyy-MM'));
+  const [editingTransaction, setEditingTransaction] = useState<any>(null);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200">
@@ -114,8 +115,20 @@ export default function App() {
 
         {activeTab === 'transaction' && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-5xl mx-auto">
-            <TransactionForm onAdd={addTransaction} />
-            <TransactionList transactions={transactions} onDelete={deleteTransaction} />
+            <TransactionForm 
+              onAdd={addTransaction} 
+              onUpdate={updateTransaction}
+              editingTransaction={editingTransaction}
+              onCancelEdit={() => setEditingTransaction(null)}
+            />
+            <TransactionList 
+              transactions={transactions} 
+              onDelete={deleteTransaction} 
+              onEdit={(tx) => {
+                setEditingTransaction(tx);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
           </div>
         )}
 
