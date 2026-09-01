@@ -12,11 +12,23 @@ import { format } from 'date-fns';
 type Tab = 'dashboard' | 'transaction' | 'report' | 'profile';
 
 export default function App() {
-  const { transactions, addTransaction, deleteTransaction, updateTransaction } = useTransactions();
-  const { profile, updateProfile } = useCompanyProfile();
+  const { transactions, addTransaction, deleteTransaction, updateTransaction, loading: txLoading } = useTransactions();
+  const { profile, updateProfile, loading: profileLoading } = useCompanyProfile();
+  
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [reportMonth, setReportMonth] = useState<string>(format(new Date(), 'yyyy-MM'));
   const [editingTransaction, setEditingTransaction] = useState<any>(null);
+
+  if (txLoading || profileLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-pulse flex flex-col items-center gap-4">
+          <div className="h-12 w-12 bg-indigo-200 rounded-full"></div>
+          <p className="text-indigo-600 font-medium">Memuat data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200">

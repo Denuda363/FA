@@ -28,6 +28,7 @@ export interface CompanyProfile {
 
 export interface Transaction {
   id: string;
+  userId?: string;
   type: TransactionType;
   category: Category;
   amount: number;

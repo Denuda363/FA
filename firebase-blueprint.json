@@ -1,0 +1,33 @@
+{
+  "collections": {
+    "transactions": {
+      "description": "Financial transactions",
+      "security": {
+        "read": "request.auth != null && request.auth.uid == resource.data.userId",
+        "write": "request.auth != null && request.auth.uid == request.resource.data.userId"
+      },
+      "schema": {
+        "userId": "string",
+        "type": "string",
+        "category": "string",
+        "amount": "number",
+        "date": "string",
+        "note": "string",
+        "createdAt": "number"
+      }
+    },
+    "profiles": {
+      "description": "Company profiles by user ID",
+      "security": {
+        "read": "request.auth != null && request.auth.uid == userId",
+        "write": "request.auth != null && request.auth.uid == userId"
+      },
+      "schema": {
+        "name": "string",
+        "address": "string",
+        "phone": "string",
+        "email": "string"
+      }
+    }
+  }
+}
