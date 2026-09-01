@@ -44,7 +44,7 @@ export function generateReportData(
   
   const incomeNeto = totalIncomeBruto - totalExpense;
   const profitPerusahaan = incomeNeto > 0 ? Math.floor(incomeNeto * 0.15) : 0;
-  const profitOwner = incomeNeto > 0 ? incomeNeto - profitPerusahaan : incomeNeto;
+  const profitOwner = profitPerusahaan > 0 ? Math.floor(profitPerusahaan * 0.20) : 0;
 
   return {
     month: monthLabel,

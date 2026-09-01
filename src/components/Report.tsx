@@ -71,7 +71,7 @@ export function Report({ transactions, targetMonth, profile }: ReportProps) {
               {Object.entries(data.income).map(([cat, amount]) => (
                 <tr key={cat} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-6 py-3 pl-12 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-blue-400 before:rounded-full before:mr-3 text-slate-600 font-medium">{cat}</td>
-                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount)}</td>
+                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount as number)}</td>
                   <td className="px-6 py-3 text-right"></td>
                 </tr>
               ))}
@@ -88,7 +88,7 @@ export function Report({ transactions, targetMonth, profile }: ReportProps) {
               {Object.entries(data.expenseCash).map(([cat, amount]) => (
                 <tr key={cat} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-6 py-3 pl-12 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-rose-400 before:rounded-full before:mr-3 text-slate-600 font-medium">{cat}</td>
-                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount)}</td>
+                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount as number)}</td>
                   <td className="px-6 py-3 text-right"></td>
                 </tr>
               ))}
@@ -105,7 +105,7 @@ export function Report({ transactions, targetMonth, profile }: ReportProps) {
               {Object.entries(data.expenseTF).map(([cat, amount]) => (
                 <tr key={cat} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-6 py-3 pl-12 flex items-center before:content-[''] before:w-1.5 before:h-1.5 before:bg-orange-400 before:rounded-full before:mr-3 text-slate-600 font-medium">{cat}</td>
-                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount)}</td>
+                  <td className="px-6 py-3 text-right tabular-nums">{formatRupiah(amount as number)}</td>
                   <td className="px-6 py-3 text-right"></td>
                 </tr>
               ))}
@@ -122,7 +122,7 @@ export function Report({ transactions, targetMonth, profile }: ReportProps) {
                 <td className="px-6 py-5 text-right font-bold text-indigo-600 tabular-nums">{formatRupiah(data.profitPerusahaan)}</td>
               </tr>
               <tr className="bg-slate-50/50">
-                <td className="px-6 py-5 font-bold text-slate-700">PROFIT OWNER</td>
+                <td className="px-6 py-5 font-bold text-slate-700">PROFIT OWNER (20% dr Profit Perusahaan)</td>
                 <td className="px-6 py-5"></td>
                 <td className="px-6 py-5 text-right font-bold text-indigo-600 tabular-nums">{formatRupiah(data.profitOwner)}</td>
               </tr>

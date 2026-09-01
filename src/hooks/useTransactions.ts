@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Transaction } from './types';
+import { Transaction } from '../types';
 
 const STORAGE_KEY = 'profitflow_transactions';
 

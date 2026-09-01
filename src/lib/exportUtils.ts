@@ -60,7 +60,7 @@ export function exportToPDF(data: MonthlyReportData, profile: CompanyProfile) {
 
   // Summary
   tableData.push(['PROFIT PERUSAHAAN (15%)', '', formatRupiah(data.profitPerusahaan)]);
-  tableData.push(['PROFIT OWNER', '', formatRupiah(data.profitOwner)]);
+  tableData.push(['PROFIT OWNER (20% dr Profit Perusahaan)', '', formatRupiah(data.profitOwner)]);
   tableData.push(['INCOME NETO', '', formatRupiah(data.incomeNeto)]);
 
   autoTable(doc, {
@@ -126,7 +126,7 @@ export function exportToExcel(data: MonthlyReportData, profile: CompanyProfile) 
   rows.push({});
 
   rows.push({ Deskripsi: 'PROFIT PERUSAHAAN (15%)', Nominal: '', Total: data.profitPerusahaan });
-  rows.push({ Deskripsi: 'PROFIT OWNER', Nominal: '', Total: data.profitOwner });
+  rows.push({ Deskripsi: 'PROFIT OWNER (20% dr Profit Perusahaan)', Nominal: '', Total: data.profitOwner });
   rows.push({ Deskripsi: 'INCOME NETO', Nominal: '', Total: data.incomeNeto });
 
   const ws = XLSX.utils.json_to_sheet(rows);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { CompanyProfile } from '../types';
 import { Building2, MapPin, Phone, Mail, Save, CheckCircle2 } from 'lucide-react';
 
