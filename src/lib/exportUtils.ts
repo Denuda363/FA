@@ -106,28 +106,28 @@ export function exportToExcel(data: MonthlyReportData, profile: CompanyProfile) 
 
   rows.push({ Deskripsi: 'INCOME BRUTO', Nominal: '', Total: '' });
   INCOME_CATEGORIES.forEach(cat => {
-    rows.push({ Deskripsi: `  . ${cat}`, Nominal: data.income[cat] || 0, Total: '' });
+    rows.push({ Deskripsi: `  . ${cat}`, Nominal: formatRupiah(data.income[cat] || 0), Total: '' });
   });
-  rows.push({ Deskripsi: 'TOTAL INCOME BRUTO', Nominal: '', Total: data.totalIncomeBruto });
+  rows.push({ Deskripsi: 'TOTAL INCOME BRUTO', Nominal: '', Total: formatRupiah(data.totalIncomeBruto) });
   rows.push({});
 
   rows.push({ Deskripsi: 'PENGELUARAN CASH', Nominal: '', Total: '' });
   EXPENSE_CASH_CATEGORIES.forEach(cat => {
-    rows.push({ Deskripsi: `  . ${cat}`, Nominal: data.expenseCash[cat] || 0, Total: '' });
+    rows.push({ Deskripsi: `  . ${cat}`, Nominal: formatRupiah(data.expenseCash[cat] || 0), Total: '' });
   });
-  rows.push({ Deskripsi: 'TOTAL PENGELUARAN CASH', Nominal: '', Total: data.totalExpenseCash });
+  rows.push({ Deskripsi: 'TOTAL PENGELUARAN CASH', Nominal: '', Total: formatRupiah(data.totalExpenseCash) });
   rows.push({});
 
   rows.push({ Deskripsi: 'PENGELUARAN TF', Nominal: '', Total: '' });
   EXPENSE_TF_CATEGORIES.forEach(cat => {
-    rows.push({ Deskripsi: `  . ${cat}`, Nominal: data.expenseTF[cat] || 0, Total: '' });
+    rows.push({ Deskripsi: `  . ${cat}`, Nominal: formatRupiah(data.expenseTF[cat] || 0), Total: '' });
   });
-  rows.push({ Deskripsi: 'TOTAL PENGELUARAN TF', Nominal: '', Total: data.totalExpenseTF });
+  rows.push({ Deskripsi: 'TOTAL PENGELUARAN TF', Nominal: '', Total: formatRupiah(data.totalExpenseTF) });
   rows.push({});
 
-  rows.push({ Deskripsi: 'PROFIT PERUSAHAAN (15%)', Nominal: '', Total: data.profitPerusahaan });
-  rows.push({ Deskripsi: 'PROFIT OWNER (20% dr Profit Perusahaan)', Nominal: '', Total: data.profitOwner });
-  rows.push({ Deskripsi: 'INCOME NETO', Nominal: '', Total: data.incomeNeto });
+  rows.push({ Deskripsi: 'PROFIT PERUSAHAAN (15%)', Nominal: '', Total: formatRupiah(data.profitPerusahaan) });
+  rows.push({ Deskripsi: 'PROFIT OWNER (20% dr Profit Perusahaan)', Nominal: '', Total: formatRupiah(data.profitOwner) });
+  rows.push({ Deskripsi: 'INCOME NETO', Nominal: '', Total: formatRupiah(data.incomeNeto) });
 
   const ws = XLSX.utils.json_to_sheet(rows);
   const wb = XLSX.utils.book_new();
